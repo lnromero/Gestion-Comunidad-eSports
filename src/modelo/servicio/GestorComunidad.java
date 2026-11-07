@@ -17,33 +17,33 @@ public class GestorComunidad {
         listaActividades = new ArrayList<>();
     }
 
-    public void agregarPersona(Persona p) {
-        if (p != null) {
-            listaPersonas.add(p);
+    public void agregarPersona(Persona persona) {
+        if (persona != null) {
+            listaPersonas.add(persona);
             System.out.println("Persona agregada correctamente.");
         } else {
             System.out.println("No se pudo agregar a la persona.");
         }
     }
 
-    public Jugador buscarJugador(String usuario) {
+    public Jugador buscarJugador(String nombreUsuario) {
         for (int i = 0; i < listaPersonas.size(); i++) {
-            Persona p = listaPersonas.get(i);
-            if (p instanceof Jugador) {
-                if (p.getNombreUsuario().equalsIgnoreCase(usuario)) {
-                    return (Jugador) p;
+            Persona personaActual = listaPersonas.get(i);
+            if (personaActual instanceof Jugador) {
+                if (personaActual.getNombreUsuario().equals(nombreUsuario)) {
+                    return (Jugador) personaActual;
                 }
             }
         }
         return null;
     }
 
-    public Coach buscarCoach(String usuario) {
+    public Coach buscarCoach(String nombreUsuario) {
         for (int i = 0; i < listaPersonas.size(); i++) {
-            Persona p = listaPersonas.get(i);
-            if (p instanceof Coach) {
-                if (p.getNombreUsuario().equalsIgnoreCase(usuario)) {
-                    return (Coach) p;
+            Persona personaActual = listaPersonas.get(i);
+            if (personaActual instanceof Coach) {
+                if (personaActual.getNombreUsuario().equals(nombreUsuario)) {
+                    return (Coach) personaActual;
                 }
             }
         }
@@ -52,43 +52,43 @@ public class GestorComunidad {
 
     public Actividad buscarActividad(String codigo) {
         for (int i = 0; i < listaActividades.size(); i++) {
-            Actividad a = listaActividades.get(i);
-            if (a.getCodigo().equalsIgnoreCase(codigo)) {
-                return a;
+            Actividad actividadActual = listaActividades.get(i);
+            if (actividadActual.getCodigo().equals(codigo)) {
+                return actividadActual;
             }
         }
         return null;
     }
 
-    public void crearDuelo(String codigo, String fecha, String hora, String user1, String user2) {
-        Jugador j1 = buscarJugador(user1);
-        Jugador j2 = buscarJugador(user2);
+    public void crearDuelo(String codigo, String fecha, String hora, String usuarioRetador, String usuarioContrincante) {
+        Jugador retador = buscarJugador(usuarioRetador);
+        Jugador contrincante = buscarJugador(usuarioContrincante);
 
-        if (j1 == null || j2 == null) {
+        if (retador == null || contrincante == null) {
             System.out.println("Error: Uno o ambos jugadores no estan registrados.");
             return;
         }
 
-        if (user1.equalsIgnoreCase(user2)) {
+        if (usuarioRetador.equals(usuarioContrincante)) {
             System.out.println("Error: No puedes crear un duelo con la misma persona.");
             return;
         }
 
-        Duelo nuevoDuelo = new Duelo(codigo, fecha, hora, j1, j2);
+        Duelo nuevoDuelo = new Duelo(codigo, fecha, hora, retador, contrincante);
         listaActividades.add(nuevoDuelo);
         System.out.println("Duelo creado con exito.");
     }
 
-    public void crearSesionCoaching(String codigo, String fecha, String hora, String userCoach, String userJugador, String tema, int horas) {
-        Coach c = buscarCoach(userCoach);
-        Jugador j = buscarJugador(userJugador);
+    public void crearSesionCoaching(String codigo, String fecha, String hora, String usuarioCoach, String usuarioJugador, String temaEntrenamiento, int horas) {
+        Coach coachEncontrado = buscarCoach(usuarioCoach);
+        Jugador jugadorEncontrado = buscarJugador(usuarioJugador);
 
-        if (c == null) {
+        if (coachEncontrado == null) {
             System.out.println("Error: El coach no existe.");
             return;
         }
 
-        if (j == null) {
+        if (jugadorEncontrado == null) {
             System.out.println("Error: El jugador no existe.");
             return;
         }
@@ -98,8 +98,8 @@ public class GestorComunidad {
             return;
         }
 
-        SesionCoaching sesion = new SesionCoaching(codigo, fecha, hora, c, j, tema, horas);
-        listaActividades.add(sesion);
+        SesionCoaching nuevaSesion = new SesionCoaching(codigo, fecha, hora, coachEncontrado, jugadorEncontrado, temaEntrenamiento, horas);
+        listaActividades.add(nuevaSesion);
         System.out.println("Sesion de coaching registrada exitosamente.");
     }
 
@@ -110,8 +110,8 @@ public class GestorComunidad {
             return;
         }
         for (int i = 0; i < listaPersonas.size(); i++) {
-            Persona p = listaPersonas.get(i);
-            p.mostrarInformacion();
+            Persona personaActual = listaPersonas.get(i);
+            personaActual.mostrarInformacion();
             System.out.println("---------------------------------");
         }
     }
@@ -123,8 +123,8 @@ public class GestorComunidad {
             return;
         }
         for (int i = 0; i < listaActividades.size(); i++) {
-            Actividad a = listaActividades.get(i);
-            System.out.println("Codigo: " + a.getCodigo() + " | Fecha: " + a.getFecha() + " | Hora: " + a.getHora() + " | Estado: " + a.getEstado());
+            Actividad actividadActual = listaActividades.get(i);
+            System.out.println("Codigo: " + actividadActual.getCodigo() + " | Fecha: " + actividadActual.getFecha() + " | Hora: " + actividadActual.getHora() + " | Estado: " + actividadActual.getEstado());
         }
     }
 
