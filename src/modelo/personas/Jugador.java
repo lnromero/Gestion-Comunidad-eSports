@@ -31,7 +31,7 @@ public class Jugador extends Persona {
     public void agregarJuego(String nombreJuego) {
         if (nombreJuego != null && !nombreJuego.trim().isEmpty()) {
             this.juegosAsociados.add(nombreJuego);
-            System.out.println("Juego '" + nombreJuego + "' agregado exitosamente.");
+            //System.out.println("Juego '" + nombreJuego + "' agregado exitosamente.");
         } else {
             System.out.println("El nombre del juego no es valido.");
         }
