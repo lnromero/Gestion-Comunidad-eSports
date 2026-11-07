@@ -21,7 +21,7 @@ public class GestorComunidad {
     public void agregarPersona(Persona persona) {
         if (persona != null) {
             listaPersonas.add(persona);
-            System.out.println("Persona agregada correctamente.");
+            // System.out.println("Persona agregada correctamente.");
         } else {
             System.out.println("No se pudo agregar a la persona.");
         }
